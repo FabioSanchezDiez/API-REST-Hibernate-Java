@@ -15,6 +15,10 @@ public class Course implements Serializable {
     @Column(name = "name", length = 120, unique = true, nullable = false)
     private String name;
 
+    @Lob
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @Column(name = "registered_users")
     private Integer registeredUsers;
 

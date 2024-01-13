@@ -4,7 +4,10 @@ import models.Course;
 import org.hibernate.Session;
 import util.HibernateUtil;
 import org.hibernate.query.Query;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CourseDAO implements CourseDAOInterface{
 
@@ -31,6 +34,41 @@ public class CourseDAO implements CourseDAOInterface{
         session.close();
 
         return courses;
+    }
+
+    public List<Course> returnCoursesLike(String search){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        Query<Course> query = session.createQuery("from Course c where c.name like :search", Course.class);
+        query.setParameter("search", "%"+search+"%");
+        List<Course> courses = query.list();
+
+        session.close();
+
+        return courses;
+    }
+
+    public List<Course> returnCoursesIn(List<String> categories) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        Query<Course> query = session.createQuery("from Course c where c.category in (:categories)", Course.class);
+        query.setParameterList("categories",categories);
+        List<Course> courses = query.list();
+
+        session.close();
+
+        return courses;
+    }
+
+    public List<Map<String, Double>> returnUsersAverage(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        Double average = session.createQuery("select avg(c.registeredUsers) from Course c", Double.class).getSingleResult();
+        List<Map<String, Double>> usersAverage = List.of(new HashMap<>(Map.of("usersAverage", Math.round(average * 100.0) / 100.0)));
+
+        session.close();
+
+        return usersAverage;
     }
 
     public long returnNumberOfCourses(){

@@ -9,6 +9,7 @@ import spark.Spark;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class CoursesAPIREST {
     private final CourseDAOInterface dao;
@@ -23,7 +24,7 @@ public class CoursesAPIREST {
         Spark.port(8080);
         dao = implementation;
 
-        // Configurar filtro CORS
+        // Configuring filter CORS
         Spark.before((request, response) -> {
             response.header("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
             response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -39,7 +40,8 @@ public class CoursesAPIREST {
             return gson.toJson(courses);
         });
 
-        Spark.get("/courses/:page/:size", ((request, response) -> {
+        // Pagination
+        Spark.get("/courses/pagination/:page/:size", ((request, response) -> {
             int page = Integer.parseInt(request.params("page"));
             int size = Integer.parseInt(request.params("size"));
             long numberOfCourses = dao.returnNumberOfCourses();
@@ -49,5 +51,28 @@ public class CoursesAPIREST {
             PaginationResponse<Course> paginationResponse = new PaginationResponse<>(courses, numberOfCourses, page, size);
             return gson.toJson(paginationResponse);
         }));
+
+        // Like filter
+        Spark.get("/courses/search/:search", (request, response) -> {
+            String search = request.params("search");
+            List<Course> courses = dao.returnCoursesLike(search);
+            return gson.toJson(courses);
+        });
+
+        // IN filter
+        Spark.get("/courses/filter/:filters", (request, response) -> {
+            String filter = request.params("filters");
+            List<String> filters = List.of(filter.split(","));
+
+            List<Course> courses = dao.returnCoursesIn(filters);
+            return gson.toJson(courses);
+        });
+
+        // AVG function
+        Spark.get("/courses/usersaverage", (request, response) -> {
+            List<Map<String, Double>> course = dao.returnUsersAverage();
+            return gson.toJson(course);
+        });
+
     }
 }

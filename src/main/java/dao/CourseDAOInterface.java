@@ -3,10 +3,14 @@ package dao;
 import models.Course;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CourseDAOInterface {
-    public List<Course> returnAllCourses();
-    public List<Course> returnAllCourses(int page, int objects);
-    public long returnNumberOfCourses();
+    List<Course> returnAllCourses();
+    List<Course> returnAllCourses(int page, int objects);
+    List<Course> returnCoursesLike(String search);
+    List<Course> returnCoursesIn(List<String> categories);
+    List<Map<String, Double>> returnUsersAverage();
+    long returnNumberOfCourses();
 
 }
