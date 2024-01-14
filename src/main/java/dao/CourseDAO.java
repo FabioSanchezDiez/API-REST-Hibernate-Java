@@ -1,16 +1,19 @@
 package dao;
 
+import dto.CourseDTO;
 import models.Course;
 import org.hibernate.Session;
 import util.HibernateUtil;
 import org.hibernate.query.Query;
 
+import javax.persistence.PersistenceException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CourseDAO implements CourseDAOInterface{
 
+    @Override
     public List<Course> returnAllCourses(){
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -20,6 +23,7 @@ public class CourseDAO implements CourseDAOInterface{
         return courses;
     }
 
+    @Override
     public List<Course> returnAllCourses(int page, int objects) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -36,6 +40,7 @@ public class CourseDAO implements CourseDAOInterface{
         return courses;
     }
 
+    @Override
     public List<Course> returnCoursesLike(String search){
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -48,6 +53,7 @@ public class CourseDAO implements CourseDAOInterface{
         return courses;
     }
 
+    @Override
     public List<Course> returnCoursesIn(List<String> categories) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -60,6 +66,7 @@ public class CourseDAO implements CourseDAOInterface{
         return courses;
     }
 
+    @Override
     public List<Map<String, Double>> returnUsersAverage(){
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -71,6 +78,94 @@ public class CourseDAO implements CourseDAOInterface{
         return usersAverage;
     }
 
+    @Override
+    public List<CourseDTO> returnSummaryPopularCourses(Integer condition){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        Query<CourseDTO> query = session.createQuery("select new dto.CourseDTO(c.image, c.name, c.registeredUsers) from Course c where c.registeredUsers > :condition", CourseDTO.class);
+        query.setParameter("condition", condition);
+        List <CourseDTO> popularCourses = query.list();
+
+        session.close();
+
+        return popularCourses;
+    }
+
+    @Override
+    public Course searchById(Long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        Course course = session.createQuery("from Course c where c.id = :id", Course.class)
+                .setParameter("id",id)
+                .getSingleResult();
+
+        session.close();
+
+        return course;
+    }
+
+    @Override
+    public Course createCourse(Course course){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            session.beginTransaction();
+            session.save(course);
+            session.getTransaction().commit();
+        } catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        }
+
+        session.close();
+        return course;
+    }
+
+    @Override
+    public Course updateCourse(Course course) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            session.beginTransaction();
+            session.update(course);
+            session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        }
+
+        session.close();
+
+        return course;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            session.beginTransaction();
+            Course course = searchById(id);
+
+            if(course != null){
+                session.delete(course);
+            } else{
+                return false;
+            }
+            session.getTransaction().commit();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return false;
+        }finally {
+            session.close();
+        }
+        return true;
+    }
+
+    @Override
     public long returnNumberOfCourses(){
         Session session = HibernateUtil.getSessionFactory().openSession();
 

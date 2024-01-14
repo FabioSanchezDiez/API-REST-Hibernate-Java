@@ -95,11 +95,11 @@ public class Course implements Serializable {
     public String toString() {
         return "Course{" +
                 "id=" + id + "\n" +
-                "name='" + name + "\n" +
+                "name=" + name + "\n" +
                 "registeredUsers=" + registeredUsers + "\n" +
                 "publicationDate=" + publicationDate + "\n" +
-                "image='" + image + "\n" +
-                "category='" + category + "\n" +
+                "image=" + image + "\n" +
+                "category=" + category + "\n" +
                 '}' + "\n";
     }
 }

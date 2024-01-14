@@ -1,5 +1,6 @@
 package dao;
 
+import dto.CourseDTO;
 import models.Course;
 
 import java.util.List;
@@ -11,6 +12,11 @@ public interface CourseDAOInterface {
     List<Course> returnCoursesLike(String search);
     List<Course> returnCoursesIn(List<String> categories);
     List<Map<String, Double>> returnUsersAverage();
+    List<CourseDTO> returnSummaryPopularCourses(Integer condition);
+    Course searchById(Long id);
+    Course createCourse(Course course);
+    Course updateCourse(Course course);
+    boolean deleteById(Long id);
     long returnNumberOfCourses();
 
 }

@@ -4,6 +4,7 @@ import adapters.LocalDateTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.CourseDAOInterface;
+import dto.CourseDTO;
 import models.Course;
 import spark.Spark;
 
@@ -34,6 +35,8 @@ public class CoursesAPIREST {
             response.type("application/json");
         });
 
+
+        // GET methods
 
         Spark.get("/courses", (request, response) -> {
             List<Course> courses = dao.returnAllCourses();
@@ -74,5 +77,50 @@ public class CoursesAPIREST {
             return gson.toJson(course);
         });
 
+        // DTO and Where condition
+        Spark.get("/courses/popular/:condition", (request, response) -> {
+            Integer condition = Integer.parseInt(request.params("condition"));
+            List<CourseDTO> course = dao.returnSummaryPopularCourses(condition);
+            return gson.toJson(course);
+        });
+
+        // POST methods
+        Spark.post("/courses", ((request, response) -> {
+            Course course = gson.fromJson(request.body(), Course.class);
+            Course createdCourse = dao.createCourse(course);
+            if(createdCourse != null){
+                return gson.toJson(createdCourse);
+            } else{
+                response.status(404);
+                return "Curso ya existente";
+            }
+        }));
+
+        // PUT methods
+        Spark.put("/courses/update/:id", ((request, response) -> {
+            Long id = Long.parseLong(request.params("id"));
+            Course course = gson.fromJson(request.body(), Course.class);
+            course.setId(id);
+
+            Course updatedCourse = dao.updateCourse(course);
+
+            if(updatedCourse != null){
+                return gson.toJson(updatedCourse);
+            } else{
+                response.status(404);
+                return "Curso no encontrado";
+            }
+        }));
+
+        // DELETE methods
+        Spark.delete("/courses/delete/:id", ((request, response) -> {
+            Long id = Long.parseLong(request.params("id"));
+            boolean deleted = dao.deleteById(id);
+            if (!deleted) {
+                response.status(404);
+                return "Curso no encontrado";
+            }
+            return "Curso eliminado";
+        }));
     }
 }
