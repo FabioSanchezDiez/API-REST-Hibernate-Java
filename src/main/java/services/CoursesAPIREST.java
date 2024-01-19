@@ -3,8 +3,10 @@ package services;
 import adapters.LocalDateTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dao.ApiKeyDAOInterface;
 import dao.CourseDAOInterface;
 import dto.CourseDTO;
+import models.ApiKey;
 import models.Course;
 import spark.Spark;
 
@@ -14,6 +16,7 @@ import java.util.Map;
 
 public class CoursesAPIREST {
     private final CourseDAOInterface dao;
+    private final ApiKeyDAOInterface apidao;
 
     // Adapter for LocalDate type
     private final Gson gson = new GsonBuilder()
@@ -21,16 +24,24 @@ public class CoursesAPIREST {
             .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
 
-    public CoursesAPIREST(CourseDAOInterface implementation){
+    public CoursesAPIREST(CourseDAOInterface implementation, ApiKeyDAOInterface apikey){
         Spark.port(8080);
         dao = implementation;
+        apidao = apikey;
 
         // Configuring filter CORS
         Spark.before((request, response) -> {
+            String key = request.headers("APIKEY");
+
+            if (key == null || key.isEmpty()) Spark.halt(404, "Acceso denegado, utiliza un API KEY válida");
+
+            if(!checkApiKey(key)) Spark.halt(404, "Acceso denegado, utiliza un API KEY válida");
+
             response.header("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
             response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
             response.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
             response.header("Access-Control-Allow-Credentials", "true");
+
             // Informamos al cliente sobre el tipo de datos que está devolviendo el cuerpo de la respuesta
             response.type("application/json");
         });
@@ -122,5 +133,16 @@ public class CoursesAPIREST {
             }
             return "Curso eliminado";
         }));
+
+        // API KEY
+        Spark.get("/apikey", (request, response) -> {
+            List<ApiKey> course = apidao.getApiKeys();
+            return gson.toJson(course);
+        });
+    }
+
+    private boolean checkApiKey(String key) {
+        ApiKey validApiKey = apidao.checkValidApiKey(key);
+        return validApiKey != null;
     }
 }
