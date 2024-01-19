@@ -16,7 +16,7 @@ public interface CourseDAOInterface {
     Course searchById(Long id);
     Course createCourse(Course course);
     Course updateCourse(Course course);
-    boolean deleteById(Long id);
+    Course deleteById(Long id);
     long returnNumberOfCourses();
 
 }

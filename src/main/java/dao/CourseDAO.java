@@ -142,27 +142,27 @@ public class CourseDAO implements CourseDAOInterface{
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public Course deleteById(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-
+        Course course;
         try{
             session.beginTransaction();
-            Course course = searchById(id);
+            course = searchById(id);
 
             if(course != null){
                 session.delete(course);
             } else{
-                return false;
+                return null;
             }
             session.getTransaction().commit();
         }catch (PersistenceException e){
             e.printStackTrace();
             session.getTransaction().rollback();
-            return false;
+            return null;
         }finally {
             session.close();
         }
-        return true;
+        return course;
     }
 
     @Override

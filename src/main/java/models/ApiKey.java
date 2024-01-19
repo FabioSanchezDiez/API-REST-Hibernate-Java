@@ -28,6 +28,10 @@ public class ApiKey {
         this.readOnly = readOnly;
     }
 
+    public void decrementUse(){
+        this.uses--;
+    }
+
     public Long getId() {
         return id;
     }
