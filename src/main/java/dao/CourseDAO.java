@@ -82,7 +82,7 @@ public class CourseDAO implements CourseDAOInterface{
     public List<CourseDTO> returnSummaryPopularCourses(Integer condition){
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Query<CourseDTO> query = session.createQuery("select new dto.CourseDTO(c.image, c.name, c.registeredUsers) from Course c where c.registeredUsers > :condition", CourseDTO.class);
+        Query<CourseDTO> query = session.createQuery("select new dto.CourseDTO(c.image, c.name, c.registeredUsers) from Course c where c.registeredUsers > :condition order by c.registeredUsers DESC", CourseDTO.class);
         query.setParameter("condition", condition);
         List <CourseDTO> popularCourses = query.list();
 

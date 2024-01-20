@@ -57,6 +57,7 @@ public class ApiKey {
     }
 
     public Boolean getActive() {
+        if (this.uses <= 0) this.active = false;
         return active;
     }
 
