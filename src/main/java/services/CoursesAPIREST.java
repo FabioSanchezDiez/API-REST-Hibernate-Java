@@ -60,7 +60,6 @@ public class CoursesAPIREST {
         });
 
         // GET methods
-
         Spark.get("/courses", (request, response) -> {
             List<Course> courses = dao.returnAllCourses();
             return gson.toJson(courses);
