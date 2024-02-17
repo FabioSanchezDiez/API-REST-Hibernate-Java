@@ -20,6 +20,7 @@ public class CoursesAPIREST {
 
     // Adapter for LocalDate type
     private final Gson gson = new GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation()
             .setPrettyPrinting()
             .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
@@ -29,6 +30,12 @@ public class CoursesAPIREST {
         dao = implementation;
         apidao = apikey;
 
+
+        Spark.exception(Exception.class, (e, req, res) -> {
+            e.printStackTrace();
+            res.status(500);
+            res.body("Excepcion en tu codigo");
+        });
 
         // Configuring filter CORS
         Spark.before((request, response) -> {

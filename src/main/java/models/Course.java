@@ -1,8 +1,15 @@
 package models;
 
+import com.google.gson.annotations.Expose;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Courses")
@@ -10,26 +17,41 @@ public class Course implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private Long id;
 
     @Column(name = "name", length = 120, unique = true, nullable = false)
+    @Expose
     private String name;
 
     @Lob
     @Column(name = "description", nullable = false)
+    @Expose
     private String description;
 
     @Column(name = "registered_users")
+    @Expose
     private Integer registeredUsers;
 
     @Column(name = "publication_date")
+    @Expose
     private LocalDate publicationDate;
 
     @Column(name = "image")
+    @Expose
     private String image;
 
     @Column(name = "category", length = 60)
+    @Expose
     private String category;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_courses",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users = new ArrayList<>();
 
     public Course() {
     }
@@ -89,6 +111,22 @@ public class Course implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override
