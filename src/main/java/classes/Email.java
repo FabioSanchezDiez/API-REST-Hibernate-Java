@@ -1,4 +1,4 @@
-package emails;
+package classes;
 
 import io.github.cdimascio.dotenv.Dotenv;
 

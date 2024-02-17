@@ -27,5 +27,13 @@ INSERT INTO courses (name, description, registered_users, publication_date, imag
 INSERT INTO courses (name, description, registered_users, publication_date, image, category) VALUES ('Desarrollo Full Stack con MERN Stack', 'Conviértete en un desarrollador Full Stack con el MERN Stack (MongoDB, Express.js, React y Node.js). Este curso te guiará a través de la creación de aplicaciones web modernas y escalables utilizando todas las tecnologías del MERN Stack. Aprenderás sobre la integración completa de las tecnologías y la construcción de aplicaciones eficientes desde el front-end hasta el back-end.', 60, '2024-02-05', 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FCurso%20Generico.png?alt=media&token=10ce507b-536c-49ff-b92d-545544f0bf2a', 'Desarrollo Web');
 INSERT INTO apikey (api_key, uses, active, read_only) VALUES ('75gIEHhE_1GHQtdwlGRPTF1kQoZ02omTS0sfs_TX', 10000, 1, 0);
 
+INSERT INTO sections (title, section_order, course_id) VALUES ('Sección 1', 1, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Sección 2', 2, 1);
+
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Introduction to SQL', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 1);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Advanced SQL Queries', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 2);
+
 
 INSERT INTO users_courses (course_id,user_id) VALUES (4,1)
+
+SET FOREIGN_KEY_CHECKS=0

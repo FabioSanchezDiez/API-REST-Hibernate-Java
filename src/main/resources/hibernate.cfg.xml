@@ -23,6 +23,8 @@
         <!-- entities -->
         <mapping class="models.Course"/>
         <mapping class="models.User"/>
+        <mapping class="models.Section"/>
+        <mapping class="models.Lesson"/>
         <mapping class="models.ApiKey"/>
 
 
