@@ -14,10 +14,13 @@ public class ApiKey {
     @Expose
     private String apiKey;
     @Column(name = "uses")
+    @Expose
     private Integer uses;
     @Column(name = "active")
+    @Expose
     private Boolean active;
     @Column(name = "read_only")
+    @Expose
     private Boolean readOnly;
 
     public ApiKey() {

@@ -1,5 +1,5 @@
-INSERT INTO users (name, email, password, admin, confirmed, token) VALUES ('John Doe', 'john.doe@example.com', 'password123', false, true, 'token123');
-INSERT INTO users (name, email, password, admin, confirmed, token) VALUES ('Admin User', 'admin@example.com', 'adminpassword', true, true, 'admintoken456');
+INSERT INTO users (name, email, password, admin, confirmed) VALUES ('Fabio', 'fabiocode@gmail.com', '$2a$10$VkQsctMldlG9LJW6vV68pezIfMQd0Mu91.Kb.IaIHMkU653sgDSsm', false, true);
+INSERT INTO users (name, email, password, admin, confirmed) VALUES ('Admin User', 'admin@example.com', '$2a$10$MnL34SeVKYvvE5SSvtM7wuTODgg4uzyGOfjrl0Ln4XLZE7o7w1cbm', true, true);
 
 INSERT INTO courses (name, description, registered_users, publication_date, image, category) VALUES ('Programación en Python - Desde Principiante hasta Experto', 'Curso completo que abarca todos los aspectos de la programación en Python. Desde los conceptos más básicos hasta las técnicas avanzadas y aplicaciones prácticas en el mundo real. Aprenderás a desarrollar proyectos Python desde cero y a convertirte en un experto en el lenguaje.', 24000, '2024-01-13', 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FPyhton%20Curso.png?alt=media&token=2128f45d-22d9-45da-8db8-9f01e850e08c', 'Programación');
 INSERT INTO courses (name, description, registered_users, publication_date, image, category) VALUES ('Desarrollo Web con JavaScript - Construye tu Sitio desde Cero', 'Este curso integral te guiará a través del emocionante mundo del desarrollo web con JavaScript. Aprenderás a construir sitios web dinámicos y modernos desde cero. Desde la manipulación del DOM hasta el desarrollo de aplicaciones web interactivas, este curso te proporcionará las habilidades esenciales para destacar en el desarrollo web.', 22500, '2024-01-14', 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FJavaScript%20Curso.png?alt=media&token=21e81e2f-b36f-498c-bdb8-4193b49b12f8', 'Programación');
@@ -29,9 +29,11 @@ INSERT INTO apikey (api_key, uses, active, read_only) VALUES ('75gIEHhE_1GHQtdwl
 
 INSERT INTO sections (title, section_order, course_id) VALUES ('Sección 1', 1, 1);
 INSERT INTO sections (title, section_order, course_id) VALUES ('Sección 2', 2, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Sección 3', 1, 2);
 
 INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Introduction to SQL', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 1);
 INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Advanced SQL Queries', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 2);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Java Basics', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 3);
 
 
 INSERT INTO users_courses (course_id,user_id) VALUES (4,1)
