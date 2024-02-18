@@ -1,8 +1,14 @@
 package dto;
 
+import com.google.gson.annotations.Expose;
+
 public class CourseDTO {
+    @Expose
     private String image;
+    @Expose
     private String name;
+    @Expose
+
     private Integer registeredUsers;
 
     public CourseDTO() {

@@ -5,9 +5,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.ApiKeyDAOInterface;
 import dao.CourseDAOInterface;
+import dao.UserDAOInterface;
 import dto.CourseDTO;
 import models.ApiKey;
 import models.Course;
+import models.User;
 import spark.Spark;
 
 import java.time.LocalDate;
@@ -15,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CoursesAPIREST {
-    private final CourseDAOInterface dao;
+    private final CourseDAOInterface dao_course;
+    private final UserDAOInterface dao_user;
     private final ApiKeyDAOInterface apidao;
 
     // Adapter for LocalDate type
@@ -25,9 +28,10 @@ public class CoursesAPIREST {
             .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
 
-    public CoursesAPIREST(CourseDAOInterface implementation, ApiKeyDAOInterface apikey){
+    public CoursesAPIREST(CourseDAOInterface implementation_course, UserDAOInterface implementation_user, ApiKeyDAOInterface apikey){
         Spark.port(8080);
-        dao = implementation;
+        dao_course = implementation_course;
+        dao_user = implementation_user;
         apidao = apikey;
 
 
@@ -68,7 +72,7 @@ public class CoursesAPIREST {
 
         // GET methods
         Spark.get("/courses", (request, response) -> {
-            List<Course> courses = dao.returnAllCourses();
+            List<Course> courses = dao_course.returnAllCourses();
             return gson.toJson(courses);
         });
 
@@ -76,9 +80,9 @@ public class CoursesAPIREST {
         Spark.get("/courses/pagination/:page/:size", ((request, response) -> {
             int page = Integer.parseInt(request.params("page"));
             int size = Integer.parseInt(request.params("size"));
-            long numberOfCourses = dao.returnNumberOfCourses();
+            long numberOfCourses = dao_course.returnNumberOfCourses();
 
-            List<Course> courses = dao.returnAllCourses(page,size);
+            List<Course> courses = dao_course.returnAllCourses(page,size);
 
             PaginationResponse<Course> paginationResponse = new PaginationResponse<>(courses, numberOfCourses, page, size);
             return gson.toJson(paginationResponse);
@@ -87,7 +91,7 @@ public class CoursesAPIREST {
         // Like filter
         Spark.get("/courses/search/:search", (request, response) -> {
             String search = request.params("search");
-            List<Course> courses = dao.returnCoursesLike(search);
+            List<Course> courses = dao_course.returnCoursesLike(search);
             return gson.toJson(courses);
         });
 
@@ -96,27 +100,27 @@ public class CoursesAPIREST {
             String filter = request.params("filters");
             List<String> filters = List.of(filter.split(","));
 
-            List<Course> courses = dao.returnCoursesIn(filters);
+            List<Course> courses = dao_course.returnCoursesIn(filters);
             return gson.toJson(courses);
         });
 
         // AVG function
         Spark.get("/courses/usersaverage", (request, response) -> {
-            List<Map<String, Double>> course = dao.returnUsersAverage();
+            List<Map<String, Double>> course = dao_course.returnUsersAverage();
             return gson.toJson(course);
         });
 
         // DTO and Where condition
         Spark.get("/courses/popular/:condition", (request, response) -> {
             Integer condition = Integer.parseInt(request.params("condition"));
-            List<CourseDTO> course = dao.returnSummaryPopularCourses(condition);
+            List<CourseDTO> course = dao_course.returnSummaryPopularCourses(condition);
             return gson.toJson(course);
         });
 
         // POST methods
         Spark.post("/courses", ((request, response) -> {
             Course course = gson.fromJson(request.body(), Course.class);
-            Course createdCourse = dao.createCourse(course);
+            Course createdCourse = dao_course.createCourse(course);
             if(createdCourse != null){
                 return gson.toJson(createdCourse);
             } else{
@@ -131,7 +135,7 @@ public class CoursesAPIREST {
             Course course = gson.fromJson(request.body(), Course.class);
             course.setId(id);
 
-            Course updatedCourse = dao.updateCourse(course);
+            Course updatedCourse = dao_course.updateCourse(course);
 
             if(updatedCourse != null){
                 return gson.toJson(updatedCourse);
@@ -144,7 +148,7 @@ public class CoursesAPIREST {
         // DELETE methods
         Spark.delete("/courses/delete/:id", ((request, response) -> {
             Long id = Long.parseLong(request.params("id"));
-            Course deleted = dao.deleteById(id);
+            Course deleted = dao_course.deleteById(id);
             if (deleted != null) {
                 return gson.toJson(deleted);
             } else{
@@ -152,6 +156,19 @@ public class CoursesAPIREST {
                 return "Curso no encontrado";
             }
         }));
+
+        // Users API
+        Spark.post("/users", ((request, response) -> {
+            User user = gson.fromJson(request.body(), User.class);
+            User createdUser = dao_user.createUser(user);
+            if(createdUser != null){
+                return gson.toJson(createdUser);
+            } else{
+                response.status(404);
+                return "Usuario ya existente";
+            }
+        }));
+
 
         // API KEY
         Spark.get("/apikey", (request, response) -> {

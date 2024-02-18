@@ -111,7 +111,7 @@ public class Email {
                 "    <h1>FabioCode - Academy</h1>\n" +
                 "    <h2>Gracias por registrarte "+ this.name+ "!</h2>\n" +
                 "    <p>Por favor confirma tu correo electronico para que puedas comenzar a utilizar tu cuenta en FabioCode Academy</p>\n" +
-                "    <a href='"+ this.token +"'><button>Verificar</button></a>\n" +
+                "    <a href='"+"http://127.0.0.1:5500/verification.html?token="+ this.token +"'><button>Verificar</button></a>\n" +
         "    <p>Si tu no te registraste, por favor ignora este correo electrónico.</p>\n" +
                 "    <div><p></p></div>\n" +
                 "    <p><span>Este correo electronico fue enviado desde una dirección solamente de notificaciones que no puede aceptar correo electronico entrante. Por favor no respondas a este mensaje.</span></p>\n" +

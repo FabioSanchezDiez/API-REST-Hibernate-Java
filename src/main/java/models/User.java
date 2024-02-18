@@ -1,11 +1,14 @@
 package models;
 
 import com.google.gson.annotations.Expose;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Users")
@@ -19,7 +22,7 @@ public class User implements Serializable {
     @Expose
     private String name;
 
-    @Column(name = "email", length= 120, nullable = false)
+    @Column(name = "email", length= 120, unique = true, nullable = false)
     @Expose
     private String email;
 
@@ -35,7 +38,7 @@ public class User implements Serializable {
     @Expose
     private Boolean confirmed;
 
-    @Column(name = "token", length= 15)
+    @Column(name = "token", length= 36)
     @Expose
     private String token;
 
@@ -117,5 +120,43 @@ public class User implements Serializable {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public void hashPassword() {
+        this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
+    }
+
+    public boolean checkPassword(String candidate, String hashedPassword) {
+        return BCrypt.checkpw(candidate, hashedPassword);
+    }
+
+    public void createToken(){
+        this.token = UUID.randomUUID().toString();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", admin=" + admin +
+                ", confirmed=" + confirmed +
+                ", token='" + token + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(admin, user.admin) && Objects.equals(confirmed, user.confirmed) && Objects.equals(token, user.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, password, admin, confirmed, token);
     }
 }

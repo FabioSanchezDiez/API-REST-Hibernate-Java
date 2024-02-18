@@ -1,11 +1,17 @@
 package services;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 public class PaginationResponse<T> {
+    @Expose
     private List<T> elements;
+    @Expose
     private long elementsNumber;
+    @Expose
     private int pageNumber;
+    @Expose
     private int pageSize;
 
     public PaginationResponse() {

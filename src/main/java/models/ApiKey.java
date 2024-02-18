@@ -1,5 +1,7 @@
 package models;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,6 +11,7 @@ public class ApiKey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "api_key", length = 40, unique = true, nullable = false)
+    @Expose
     private String apiKey;
     @Column(name = "uses")
     private Integer uses;

@@ -35,5 +35,6 @@ INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Advanced SQ
 
 
 INSERT INTO users_courses (course_id,user_id) VALUES (4,1)
-
-SET FOREIGN_KEY_CHECKS=0
+INSERT INTO users_courses (course_id,user_id) VALUES (3,1)
+INSERT INTO users_courses (course_id,user_id) VALUES (10,1)
+INSERT INTO users_courses (course_id,user_id) VALUES (10,2)
