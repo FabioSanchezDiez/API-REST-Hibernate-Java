@@ -26,7 +26,8 @@ public class Section {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Expose
     private List<Lesson> lessons = new ArrayList<>();
 
     public Section() {

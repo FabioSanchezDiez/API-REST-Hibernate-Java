@@ -28,14 +28,189 @@ INSERT INTO courses (name, description, registered_users, publication_date, imag
 INSERT INTO courses (name, description, registered_users, publication_date, image, category) VALUES ('Desarrollo Full Stack con MERN Stack', 'Conviértete en un desarrollador Full Stack con el MERN Stack (MongoDB, Express.js, React y Node.js). Este curso te guiará a través de la creación de aplicaciones web modernas y escalables utilizando todas las tecnologías del MERN Stack. Aprenderás sobre la integración completa de las tecnologías y la construcción de aplicaciones eficientes desde el front-end hasta el back-end.', 60, '2024-02-05', 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FCurso%20Generico.png?alt=media&token=10ce507b-536c-49ff-b92d-545544f0bf2a', 'Desarrollo Web');
 INSERT INTO apikeytable (api_key, uses, active, read_only) VALUES ('75gIEHhE_1GHQtdwlGRPTF1kQoZ02omTS0sfs_TX', 10000, 1, 0);
 
-INSERT INTO sections (title, section_order, course_id) VALUES ('Sección 1', 1, 1);
-INSERT INTO sections (title, section_order, course_id) VALUES ('Sección 2', 2, 1);
-INSERT INTO sections (title, section_order, course_id) VALUES ('Sección 3', 1, 2);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Python', 1, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Primeros pasos', 2, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Variables', 3, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Condicionales', 4, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Bucles', 5, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Listas y tuplas', 6, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('POO', 7, 1);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Python avanzado', 8, 1);
 
-INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Introduction to SQL', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 1);
-INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Advanced SQL Queries', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 2);
-INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Java Basics', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 3);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a JavaScript', 1, 2);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Manipulación del DOM', 2, 2);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Desarrollo de Aplicaciones Web', 3, 2);
+INSERT INTO sections (title, section_order, course_id) VALUES ('AJAX y API REST', 4, 2);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Frameworks de JavaScript', 5, 2);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 2);
 
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Java', 1, 3);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Programación Orientada a Objetos', 2, 3);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Estructuras de Datos', 3, 3);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Desarrollo de Aplicaciones Java', 4, 3);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Spring Framework', 5, 3);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 3);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a C#', 1, 4);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Programación Orientada a Objetos con C#', 2, 4);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Desarrollo de Aplicaciones con C#', 3, 4);
+INSERT INTO sections (title, section_order, course_id) VALUES ('ASP.NET Core', 4, 4);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Entity Framework', 5, 4);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 4);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Ruby', 1, 5);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Programación Orientada a Objetos con Ruby', 2, 5);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Desarrollo de Aplicaciones con Ruby', 3, 5);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Ruby on Rails', 4, 5);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Testing en Ruby', 5, 5);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 5);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Swift', 1, 6);
+INSERT INTO sections (title, section_order, course_id) VALUES ('UIKit y Storyboards', 2, 6);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Trabajo con Datos en iOS', 3, 6);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Integración de API en iOS', 4, 6);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Desarrollo de Aplicaciones Complejas', 5, 6);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 6);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Kotlin', 1, 7);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Programación Orientada a Objetos con Kotlin', 2, 7);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Desarrollo Android con Kotlin', 3, 7);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Interfaz de Usuario en Android', 4, 7);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Almacenamiento y Red en Android', 5, 7);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 7);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a HTML', 1, 8);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Fundamentos de CSS', 2, 8);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Diseño Responsivo', 3, 8);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Flexbox y Grid', 4, 8);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Animaciones y Transiciones', 5, 8);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 8);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a ReactJS', 1, 9);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Componentes y Props', 2, 9);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Estado y Ciclo de Vida', 3, 9);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Manejo de Eventos en React', 4, 9);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Enrutamiento en React', 5, 9);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 9);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Angular', 1, 10);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Componentes y Directivas', 2, 10);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Servicios y Inyección de Dependencias', 3, 10);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Rutas y Navegación', 4, 10);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Formularios en Angular', 5, 10);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 10);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Vue.js', 1, 11);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Componentes y Propiedades', 2, 11);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Estado y Eventos', 3, 11);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Directivas en Vue.js', 4, 11);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Rutas en Vue.js', 5, 11);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 11);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Node.js', 1, 12);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Express.js: Desarrollo de Aplicaciones Web', 2, 12);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Trabajo con Bases de Datos en Node.js', 3, 12);
+INSERT INTO sections (title, section_order, course_id) VALUES ('API RESTful con Node.js', 4, 12);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Autenticación y Autorización', 5, 12);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 12);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Django', 1, 13);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Modelos y Vistas en Django', 2, 13);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Plantillas y Formularios', 3, 13);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Admin y Middleware', 4, 13);
+INSERT INTO sections (title, section_order, course_id) VALUES ('APIs en Django', 5, 13);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 13);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Laravel', 1, 14);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Migraciones y Eloquent ORM', 2, 14);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Rutas y Controladores', 3, 14);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Vistas y Blade', 4, 14);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Autenticación en Laravel', 5, 14);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 14);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a MongoDB', 1, 15);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Operaciones CRUD en MongoDB', 2, 15);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Índices y Agregaciones', 3, 15);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Modelado de Datos en MongoDB', 4, 15);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Replicación y Fragmentación', 5, 15);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 15);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a MySQL', 1, 16);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Consultas SQL Avanzadas', 2, 16);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Optimización de Bases de Datos', 3, 16);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Relaciones y Claves Extranjeras', 4, 16);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Procedimientos Almacenados', 5, 16);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 16);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a PostgreSQL', 1, 17);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Optimización de Consultas', 2, 17);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Funciones Almacenadas y Triggers', 3, 17);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Replicación y Particionamiento', 4, 17);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Seguridad en PostgreSQL', 5, 17);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 17);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Firebase', 1, 18);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Autenticación y Autorización en Firebase', 2, 18);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Almacenamiento en la Nube con Firebase', 3, 18);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Base de Datos en Tiempo Real', 4, 18);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Notificaciones y Funciones en la Nube', 5, 18);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 18);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Docker', 1, 19);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Creación de Imágenes Docker', 2, 19);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Orquestación con Docker Compose', 3, 19);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Redes y Volúmenes en Docker', 4, 19);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Docker Swarm y Escalabilidad', 5, 19);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 19);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Kubernetes', 1, 20);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Despliegue de Aplicaciones en Kubernetes', 2, 20);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Escalabilidad y Actualizaciones', 3, 20);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Servicios y Redes en Kubernetes', 4, 20);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Monitoreo y Solución de Problemas', 5, 20);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 20);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Jenkins', 1, 21);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Configuración y Creación de Pipelines', 2, 21);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Despliegue Continuo con Jenkins', 3, 21);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Gestión de Configuración', 4, 21);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Integración con Herramientas Externas', 5, 21);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 21);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a Git', 1, 22);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Trabajo con Ramas en Git', 2, 22);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Resolución de Conflictos en Git', 3, 22);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Flujo de Trabajo en Equipos', 4, 22);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Git Avanzado y Buenas Prácticas', 5, 22);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 22);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción a SVN', 1, 23);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Configuración de Repositorios SVN', 2, 23);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Trabajo con Ramas en SVN', 3, 23);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Fusiones y Resolución de Conflictos', 4, 23);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Propiedades y Etiquetas en SVN', 5, 23);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 23);
+
+INSERT INTO sections (title, section_order, course_id) VALUES ('Introducción al MERN Stack', 1, 24);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Desarrollo Front-end con React', 2, 24);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Desarrollo Back-end con Node.js y Express', 3, 24);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Base de Datos MongoDB con Mongoose', 4, 24);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Integración Completa del MERN Stack', 5, 24);
+INSERT INTO sections (title, section_order, course_id) VALUES ('Proyecto Final', 6, 24);
+
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Historia del lenguaje', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 1);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Instalando PyCharm', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 2);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Hola Mundo en Python', 2, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 2);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Introducción a JavaScript', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 9);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Manipulación del DOM con JS', 2, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 10);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Introducción a Java', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 15);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Programación Orientada a Objetos', 2, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 16);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Introducción a C#', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 21);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Programación Orientada a Objetos con C#', 2, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 22);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Sintaxis Básica de Ruby', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 27);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Programación Orientada a Objetos en Ruby', 2, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 28);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Introducción a Kotlin', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 39);
+INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Programación Orientada a Objetos en Kotlin', 2, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 40);
 
 INSERT INTO users_courses (course_id,user_id) VALUES (4,1)
 INSERT INTO users_courses (course_id,user_id) VALUES (3,1)
