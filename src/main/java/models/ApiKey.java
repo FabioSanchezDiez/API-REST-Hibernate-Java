@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import javax.persistence.*;
 
 @Entity
-@Table(name="ApiKey")
+@Table(name="ApiKeyTable")
 public class ApiKey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
