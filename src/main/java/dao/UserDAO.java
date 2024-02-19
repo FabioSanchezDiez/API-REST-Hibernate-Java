@@ -1,19 +1,61 @@
 package dao;
 
 import classes.Email;
+import dto.UserDTO;
 import models.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
 
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import java.util.List;
 
 public class UserDAO implements UserDAOInterface{
 
     @Override
-    public User searchById(Long id) {
-        return null;
+    public User searchByEmail(String email) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        User user;
+
+        try{
+            user = session.createQuery("from User u where u.email = :email", User.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e){
+            e.printStackTrace();
+            return null;
+        }
+        session.close();
+
+        return user;
+    }
+
+    @Override
+    public User confirmAccount(String token) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        User user;
+
+        try{
+            user = session.createQuery("from User u where u.token = :token", User.class)
+                    .setParameter("token", token)
+                    .getSingleResult();
+
+            session.beginTransaction();
+            user.setToken(null);
+            user.setConfirmed(true);
+            session.update(user);
+            session.getTransaction().commit();
+
+            } catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        }
+        session.close();
+
+        return user;
     }
 
     @Override
@@ -40,16 +82,16 @@ public class UserDAO implements UserDAOInterface{
     }
 
     @Override
-    public User returnAuthenticatedUser(String email, String password) {
+    public User returnAuthenticatedUser(UserDTO userDTO) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
             Query<User> query = session.createQuery("FROM User WHERE email = :email", User.class);
-            query.setParameter("email", email);
+            query.setParameter("email", userDTO.getEmail());
             User user = query.uniqueResult();
 
             // Check if the user exists and the password is correct
-            if (user != null && user.checkPassword(password, user.getPassword())) {
+            if (user != null && user.checkPassword(userDTO.getPassword(), user.getPassword()) && user.getConfirmed()) {
                 // Authentication successful
                 session.close();
                 return user;

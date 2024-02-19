@@ -4,9 +4,11 @@ import adapters.LocalDateTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.ApiKeyDAOInterface;
+import dao.AssociationsDAOInterface;
 import dao.CourseDAOInterface;
 import dao.UserDAOInterface;
 import dto.CourseDTO;
+import dto.UserDTO;
 import models.ApiKey;
 import models.Course;
 import models.User;
@@ -19,6 +21,7 @@ import java.util.Map;
 public class CoursesAPIREST {
     private final CourseDAOInterface dao_course;
     private final UserDAOInterface dao_user;
+    private final AssociationsDAOInterface dao_association;
     private final ApiKeyDAOInterface apidao;
 
     // Adapter for LocalDate type
@@ -28,10 +31,11 @@ public class CoursesAPIREST {
             .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
 
-    public CoursesAPIREST(CourseDAOInterface implementation_course, UserDAOInterface implementation_user, ApiKeyDAOInterface apikey){
+    public CoursesAPIREST(CourseDAOInterface implementation_course, UserDAOInterface implementation_user, AssociationsDAOInterface implementation_association, ApiKeyDAOInterface apikey){
         Spark.port(8080);
         dao_course = implementation_course;
         dao_user = implementation_user;
+        dao_association = implementation_association;
         apidao = apikey;
 
 
@@ -157,7 +161,29 @@ public class CoursesAPIREST {
             }
         }));
 
-        // Users API
+        // Users Endpoints
+        Spark.get("/users/search/:email", (request, response) -> {
+            String email = request.params("email");
+            User user = dao_user.searchByEmail(email);
+            if(user != null){
+                return gson.toJson(user);
+            } else{
+                response.status(404);
+                return "El usuario no existe";
+            }
+        });
+
+        Spark.get("/users/confirm/:token", (request, response) -> {
+            String token = request.params("token");
+            User user = dao_user.confirmAccount(token);
+            if(user != null){
+                return gson.toJson(user);
+            } else{
+                response.status(404);
+                return "Usuario ya confirmado o no existente";
+            }
+        });
+
         Spark.post("/users", ((request, response) -> {
             User user = gson.fromJson(request.body(), User.class);
             User createdUser = dao_user.createUser(user);
@@ -169,6 +195,34 @@ public class CoursesAPIREST {
             }
         }));
 
+        /*
+         * [NOT SECURE]
+         * A basic login simulation implementation. When the user exists
+         * my API sends the user to the frontend which manage the auth.
+         */
+        Spark.post("/users/auth", (((request, response) -> {
+            UserDTO user = gson.fromJson(request.body(), UserDTO.class);
+            User authUser = dao_user.returnAuthenticatedUser(user);
+            if(authUser != null){
+                return gson.toJson(authUser);
+            } else{
+                response.status(404);
+                return "Inicio de sesión incorrecto";
+            }
+        })));
+
+        //Associations Endpoints
+        Spark.get("/users/courses/:email", (request, response) -> {
+            String email = request.params("email");
+            User user = dao_user.searchByEmail(email);
+            List<Course> ownedCourses = dao_association.returnOwnedCourses(user);
+            if(ownedCourses != null){
+                return gson.toJson(ownedCourses);
+            } else{
+                response.status(404);
+                return "El usuario no existe";
+            }
+        });
 
         // API KEY
         Spark.get("/apikey", (request, response) -> {

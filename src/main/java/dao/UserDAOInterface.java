@@ -1,9 +1,12 @@
 package dao;
 
+import dto.UserDTO;
 import models.User;
 
 public interface UserDAOInterface {
-    User searchById(Long id);
+    User searchByEmail(String email);
+    User confirmAccount(String token);
+
     User createUser(User user);
-    User returnAuthenticatedUser(String email, String password);
+    User returnAuthenticatedUser(UserDTO userDTO);
 }
