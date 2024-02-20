@@ -9,8 +9,8 @@ import java.util.Map;
 public interface CourseDAOInterface {
     List<Course> returnAllCourses();
     List<Course> returnAllCourses(int page, int objects);
-    List<Course> returnCoursesLike(String search);
-    List<Course> returnCoursesIn(List<String> categories);
+    List<CourseDTO> returnCoursesLike(String search);
+    List<CourseDTO> returnCoursesIn(List<String> categories);
     List<Map<String, Double>> returnUsersAverage();
     List<CourseDTO> returnSummaryPopularCourses(Integer condition);
     Course searchById(Long id);

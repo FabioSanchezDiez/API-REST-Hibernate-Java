@@ -41,12 +41,12 @@ public class CourseDAO implements CourseDAOInterface{
     }
 
     @Override
-    public List<Course> returnCoursesLike(String search){
+    public List<CourseDTO> returnCoursesLike(String search){
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Query<Course> query = session.createQuery("from Course c where c.name like :search", Course.class);
+        Query<CourseDTO> query = session.createQuery("select new dto.CourseDTO(c.id, c.image, c.name, c.registeredUsers) from Course c where c.name like :search", CourseDTO.class);
         query.setParameter("search", "%"+search+"%");
-        List<Course> courses = query.list();
+        List<CourseDTO> courses = query.list();
 
         session.close();
 
@@ -54,12 +54,12 @@ public class CourseDAO implements CourseDAOInterface{
     }
 
     @Override
-    public List<Course> returnCoursesIn(List<String> categories) {
+    public List<CourseDTO> returnCoursesIn(List<String> categories) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Query<Course> query = session.createQuery("from Course c where c.category in (:categories)", Course.class);
+        Query<CourseDTO> query = session.createQuery("select new dto.CourseDTO(c.id, c.image, c.name, c.registeredUsers) from Course c where c.category in (:categories)", CourseDTO.class);
         query.setParameterList("categories",categories);
-        List<Course> courses = query.list();
+        List<CourseDTO> courses = query.list();
 
         session.close();
 
@@ -82,7 +82,7 @@ public class CourseDAO implements CourseDAOInterface{
     public List<CourseDTO> returnSummaryPopularCourses(Integer condition){
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Query<CourseDTO> query = session.createQuery("select new dto.CourseDTO(c.image, c.name, c.registeredUsers) from Course c where c.registeredUsers > :condition order by c.registeredUsers DESC", CourseDTO.class);
+        Query<CourseDTO> query = session.createQuery("select new dto.CourseDTO(c.id, c.image, c.name, c.registeredUsers) from Course c where c.registeredUsers > :condition order by c.registeredUsers DESC", CourseDTO.class);
         query.setParameter("condition", condition);
         List <CourseDTO> popularCourses = query.list();
 

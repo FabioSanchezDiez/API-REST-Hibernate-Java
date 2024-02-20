@@ -1,5 +1,6 @@
 package dao;
 
+import dto.CourseDTO;
 import models.Course;
 import models.User;
 import org.hibernate.Session;
@@ -13,15 +14,17 @@ import java.util.List;
 public class AssociationsDAO implements AssociationsDAOInterface {
 
     @Override
-    public List<Course> returnOwnedCourses(User user) {
-        List<Course> courses;
+    public List<CourseDTO> returnOwnedCourses(User user) {
+        List<CourseDTO> courses;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try{
             Query<User> query = session.createQuery(
                     "select u from User u join fetch u.courses where u.email = :email", User.class);
             query.setParameter("email", user.getEmail());
-            courses = query.getSingleResult().getCourses();
+            List<Course> coursesWithoutMapped = query.getSingleResult().getCourses();
+            courses = coursesWithoutMapped.stream().map( course -> new CourseDTO(course.getId(), course.getImage(), course.getName(), course.getRegisteredUsers())).toList();
+
         }catch (NoResultException e){
             courses = new ArrayList<>();
         }

@@ -4,17 +4,19 @@ import com.google.gson.annotations.Expose;
 
 public class CourseDTO {
     @Expose
+    private Long id;
+    @Expose
     private String image;
     @Expose
     private String name;
     @Expose
-
     private Integer registeredUsers;
 
     public CourseDTO() {
     }
 
-    public CourseDTO(String image, String name, Integer registeredUsers) {
+    public CourseDTO(Long id, String image, String name, Integer registeredUsers) {
+        this.id = id;
         this.image = image;
         this.name = name;
         this.registeredUsers = registeredUsers;
@@ -42,6 +44,14 @@ public class CourseDTO {
 
     public void setRegisteredUsers(Integer registeredUsers) {
         this.registeredUsers = registeredUsers;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

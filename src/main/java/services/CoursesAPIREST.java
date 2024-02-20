@@ -92,10 +92,16 @@ public class CoursesAPIREST {
             return gson.toJson(paginationResponse);
         }));
 
+        Spark.get("/courses/search/id/:id", (request, response) -> {
+            Long search = Long.valueOf(request.params("id"));
+            Course course = dao_course.searchById(search);
+            return gson.toJson(course);
+        });
+
         // Like filter
         Spark.get("/courses/search/:search", (request, response) -> {
             String search = request.params("search");
-            List<Course> courses = dao_course.returnCoursesLike(search);
+            List<CourseDTO> courses = dao_course.returnCoursesLike(search);
             return gson.toJson(courses);
         });
 
@@ -104,7 +110,7 @@ public class CoursesAPIREST {
             String filter = request.params("filters");
             List<String> filters = List.of(filter.split(","));
 
-            List<Course> courses = dao_course.returnCoursesIn(filters);
+            List<CourseDTO> courses = dao_course.returnCoursesIn(filters);
             return gson.toJson(courses);
         });
 
@@ -215,7 +221,7 @@ public class CoursesAPIREST {
         Spark.get("/users/courses/:email", (request, response) -> {
             String email = request.params("email");
             User user = dao_user.searchByEmail(email);
-            List<Course> ownedCourses = dao_association.returnOwnedCourses(user);
+            List<CourseDTO> ownedCourses = dao_association.returnOwnedCourses(user);
             if(ownedCourses != null){
                 return gson.toJson(ownedCourses);
             } else{
