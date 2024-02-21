@@ -15,6 +15,16 @@ import java.util.List;
 public class UserDAO implements UserDAOInterface{
 
     @Override
+    public User searchById(Long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        User user = session.find(User.class, id);
+        session.close();
+
+        return user;
+    }
+
+    @Override
     public User searchByEmail(String email) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         User user;

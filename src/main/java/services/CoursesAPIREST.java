@@ -168,6 +168,17 @@ public class CoursesAPIREST {
         }));
 
         // Users Endpoints
+        Spark.get("/users/search/id/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            User user = dao_user.searchById(id);
+            if(user != null){
+                return gson.toJson(user);
+            } else{
+                response.status(404);
+                return "El usuario no existe";
+            }
+        });
+
         Spark.get("/users/search/:email", (request, response) -> {
             String email = request.params("email");
             User user = dao_user.searchByEmail(email);
@@ -228,6 +239,14 @@ public class CoursesAPIREST {
                 response.status(404);
                 return "El usuario no existe";
             }
+        });
+
+        Spark.post("/users/courses/:iduser/:idcourse", (request, response) -> {
+            Long idUser = Long.parseLong(request.params("iduser"));
+            Long idCourse = Long.parseLong(request.params("idcourse"));
+            User user = dao_user.searchById(idUser);
+            Course course = dao_course.searchById(idCourse);
+            return gson.toJson(dao_association.joinCourse(course, user));
         });
 
         // API KEY

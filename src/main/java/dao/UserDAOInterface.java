@@ -4,6 +4,7 @@ import dto.UserDTO;
 import models.User;
 
 public interface UserDAOInterface {
+    User searchById(Long id);
     User searchByEmail(String email);
     User confirmAccount(String token);
 
