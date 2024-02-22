@@ -3,14 +3,12 @@ package services;
 import adapters.LocalDateTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dao.ApiKeyDAOInterface;
-import dao.AssociationsDAOInterface;
-import dao.CourseDAOInterface;
-import dao.UserDAOInterface;
+import dao.*;
 import dto.CourseDTO;
 import dto.UserDTO;
 import models.ApiKey;
 import models.Course;
+import models.Review;
 import models.User;
 import spark.Spark;
 
@@ -21,6 +19,7 @@ import java.util.Map;
 public class CoursesAPIREST {
     private final CourseDAOInterface dao_course;
     private final UserDAOInterface dao_user;
+    private final ReviewDAOInterface dao_review;
     private final AssociationsDAOInterface dao_association;
     private final ApiKeyDAOInterface apidao;
 
@@ -31,10 +30,11 @@ public class CoursesAPIREST {
             .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
 
-    public CoursesAPIREST(CourseDAOInterface implementation_course, UserDAOInterface implementation_user, AssociationsDAOInterface implementation_association, ApiKeyDAOInterface apikey){
+    public CoursesAPIREST(CourseDAOInterface implementation_course, UserDAOInterface implementation_user, ReviewDAOInterface implementation_review,AssociationsDAOInterface implementation_association, ApiKeyDAOInterface apikey){
         Spark.port(8080);
         dao_course = implementation_course;
         dao_user = implementation_user;
+        dao_review = implementation_review;
         dao_association = implementation_association;
         apidao = apikey;
 
@@ -86,9 +86,9 @@ public class CoursesAPIREST {
             int size = Integer.parseInt(request.params("size"));
             long numberOfCourses = dao_course.returnNumberOfCourses();
 
-            List<Course> courses = dao_course.returnAllCourses(page,size);
+            List<CourseDTO> courses = dao_course.returnAllCourses(page,size);
 
-            PaginationResponse<Course> paginationResponse = new PaginationResponse<>(courses, numberOfCourses, page, size);
+            PaginationResponse<CourseDTO> paginationResponse = new PaginationResponse<>(courses, numberOfCourses, page, size);
             return gson.toJson(paginationResponse);
         }));
 
@@ -229,7 +229,9 @@ public class CoursesAPIREST {
         })));
 
         //Associations Endpoints
-        Spark.get("/users/courses/:email", (request, response) -> {
+
+        //Get courses for the user by email
+        Spark.get("/courses/users/:email", (request, response) -> {
             String email = request.params("email");
             User user = dao_user.searchByEmail(email);
             List<CourseDTO> ownedCourses = dao_association.returnOwnedCourses(user);
@@ -241,12 +243,67 @@ public class CoursesAPIREST {
             }
         });
 
+        Spark.get("/courses/reviews/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            Review review = dao_review.searchById(id);
+            CourseDTO course = dao_association.returnCourseByReview(review);
+            if(course != null){
+                return gson.toJson(course);
+            } else{
+                response.status(404);
+                return "La reseña no existe";
+            }
+        });
+
+        //Get users for the course by id
+        Spark.get("/users/courses/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            Course course = dao_course.searchById(id);
+            List<User> users = dao_association.returnUsersWithCourse(course);
+            if(users != null){
+                return gson.toJson(users);
+            } else{
+                response.status(404);
+                return "El curso no existe";
+            }
+        });
+
+        //Enroll user in the course
         Spark.post("/users/courses/:iduser/:idcourse", (request, response) -> {
             Long idUser = Long.parseLong(request.params("iduser"));
             Long idCourse = Long.parseLong(request.params("idcourse"));
             User user = dao_user.searchById(idUser);
             Course course = dao_course.searchById(idCourse);
             return gson.toJson(dao_association.joinCourse(course, user));
+        });
+
+        //Get reviews for the user by id
+        Spark.get("/reviews/users/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            User user = dao_user.searchById(id);
+            List<Review> reviews = dao_association.returnReviewsByUser(user);
+            if(reviews != null){
+                return gson.toJson(reviews);
+            } else{
+                response.status(404);
+                return "El usuario no existe";
+            }
+        });
+
+        //Insert new review
+        Spark.post("/reviews/:iduser/:idcourse", (request, response) -> {
+            Long idUser = Long.parseLong(request.params("iduser"));
+            Long idCourse = Long.parseLong(request.params("idcourse"));
+            User user = dao_user.searchById(idUser);
+            Course course = dao_course.searchById(idCourse);
+            Review review = gson.fromJson(request.body(), Review.class);
+            Review reviewCreated = dao_association.createReview(user, course, review);
+            if(reviewCreated != null){
+                return gson.toJson(reviewCreated);
+            } else{
+                response.status(404);
+                return "Ya has escrito una reseña en este curso";
+            }
         });
 
         // API KEY

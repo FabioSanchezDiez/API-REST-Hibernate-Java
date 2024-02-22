@@ -46,6 +46,9 @@ public class Course implements Serializable {
     @Expose
     private List<Section> sections = new ArrayList<>();
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_courses",
@@ -88,6 +91,10 @@ public class Course implements Serializable {
 
     public void setRegisteredUsers(Integer registeredUsers) {
         this.registeredUsers = registeredUsers;
+    }
+
+    public void increaseRegisteredUsers() {
+        this.registeredUsers += 1;
     }
 
     public LocalDate getPublicationDate() {
@@ -136,6 +143,14 @@ public class Course implements Serializable {
 
     public void setSections(List<Section> sections) {
         this.sections = sections;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

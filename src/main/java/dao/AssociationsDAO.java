@@ -1,7 +1,9 @@
 package dao;
 
+import classes.Email;
 import dto.CourseDTO;
 import models.Course;
+import models.Review;
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AssociationsDAO implements AssociationsDAOInterface {
+
+    // [START] === (User and Course models) ManyToMany Relationship methods for access from both sides ===
 
     @Override
     public List<CourseDTO> returnOwnedCourses(User user) {
@@ -26,7 +30,7 @@ public class AssociationsDAO implements AssociationsDAOInterface {
             List<Course> coursesWithoutMapped = query.getSingleResult().getCourses();
             courses = coursesWithoutMapped.stream().map( course -> new CourseDTO(course.getId(), course.getImage(), course.getName(), course.getRegisteredUsers())).toList();
 
-        }catch (NoResultException e){
+        }catch (Exception e){
             courses = new ArrayList<>();
         }
         session.close();
@@ -75,6 +79,7 @@ public class AssociationsDAO implements AssociationsDAOInterface {
         try{
 
             List<Course> courses = returnOwnedCourses(user, true);
+            course.increaseRegisteredUsers();
             courses.add(course);
             user.setCourses(courses);
 
@@ -96,5 +101,69 @@ public class AssociationsDAO implements AssociationsDAOInterface {
 
         session.close();
         return true;
+    }
+
+    // [END] === (User and Course models) ManyToMany Relationship methods ===
+
+
+    // [START] === (Review model) OneToMany Relationship methods for access from both sides ===
+
+    @Override
+    public CourseDTO returnCourseByReview(Review review) {
+        CourseDTO courseMapped;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            Query<Review> query = session.createQuery("select r from Review r join fetch r.course where r.id = :id", Review.class);
+            query.setParameter("id", review.getId());
+            Course course = query.getSingleResult().getCourse();
+            courseMapped = new CourseDTO(course.getId(), course.getImage(), course.getName(), course.getRegisteredUsers());
+        } catch (Exception e){
+            courseMapped = null;
+        }
+
+        session.close();
+        return courseMapped;
+    }
+
+    @Override
+    public List<Review> returnReviewsByUser(User user) {
+        List<Review> reviews;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            Query<User> query = session.createQuery("select u from User u join fetch u.reviews where u.id = :id", User.class);
+            query.setParameter("id", user.getId());
+            reviews = query.getSingleResult().getReviews();
+        } catch (Exception e){
+            reviews = new ArrayList<>();
+        }
+
+        session.close();
+
+        return reviews;
+    }
+
+    @Override
+    public Review createReview(User user, Course course, Review review) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            session.beginTransaction();
+
+            if(new ReviewDAO().searchByUserAndCourse(user, course) != null) throw new PersistenceException();
+
+            review.setUser(user);
+            review.setCourse(course);
+            session.save(review);
+            session.getTransaction().commit();
+
+        } catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        }
+        session.close();
+        return review;
     }
 }

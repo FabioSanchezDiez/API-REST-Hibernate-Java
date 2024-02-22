@@ -1,11 +1,8 @@
-import dao.ApiKeyDAO;
-import dao.AssociationsDAO;
-import dao.CourseDAO;
-import dao.UserDAO;
+import dao.*;
 import services.CoursesAPIREST;
 
 public class Server {
     public static void main(String[] args) {
-        CoursesAPIREST api = new CoursesAPIREST(new CourseDAO(), new UserDAO(), new AssociationsDAO(),new ApiKeyDAO());
+        CoursesAPIREST api = new CoursesAPIREST(new CourseDAO(), new UserDAO(), new ReviewDAO(), new AssociationsDAO(), new ApiKeyDAO());
     }
 }

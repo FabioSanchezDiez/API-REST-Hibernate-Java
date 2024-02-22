@@ -45,6 +45,9 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "users")
     private List<Course> courses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
+
     public User() {
     }
 
@@ -120,6 +123,14 @@ public class User implements Serializable {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public void hashPassword() {

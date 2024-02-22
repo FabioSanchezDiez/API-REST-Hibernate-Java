@@ -24,16 +24,16 @@ public class CourseDAO implements CourseDAOInterface{
     }
 
     @Override
-    public List<Course> returnAllCourses(int page, int objects) {
+    public List<CourseDTO> returnAllCourses(int page, int objects) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         // Query HQL with limits for do pagination
-        Query<Course> query = session.createQuery("from Course", Course.class);
+        Query<CourseDTO> query = session.createQuery("select new dto.CourseDTO(c.id, c.image, c.name, c.registeredUsers) from Course c", CourseDTO.class);
         query.setMaxResults(objects);
         query.setFirstResult((page - 1) * objects);
 
 
-        List<Course> courses = query.list();
+        List<CourseDTO> courses = query.list();
 
         session.close();
 
