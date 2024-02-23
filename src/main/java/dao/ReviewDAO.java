@@ -5,8 +5,10 @@ import models.Review;
 import models.User;
 import org.hibernate.Session;
 import util.HibernateUtil;
+import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 public class ReviewDAO implements ReviewDAOInterface{
     @Override
@@ -17,6 +19,18 @@ public class ReviewDAO implements ReviewDAOInterface{
         session.close();
 
         return review;
+    }
+
+    @Override
+    public List<Review> returnBestReviews() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        Query<Review> query = session.createQuery("from Review r where r.rating = :condition", Review.class)
+                .setMaxResults(6)
+                .setParameter("condition", 5);
+        List<Review> reviews = query.list();
+
+        return reviews;
     }
 
     @Override

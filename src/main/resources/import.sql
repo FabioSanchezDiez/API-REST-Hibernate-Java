@@ -212,17 +212,16 @@ INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Programaci�
 INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Introducción a Kotlin', 1, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 39);
 INSERT INTO lessons (name, lesson_order, video, section_id) VALUES ('Programación Orientada a Objetos en Kotlin', 2, 'https://firebasestorage.googleapis.com/v0/b/fabiocodeacademy.appspot.com/o/CoursesImages%2FVideo%20de%20Presentacion.mp4?alt=media&token=0ab1007e-008f-42e2-86d9-2f50f3c5ba55', 40);
 
-INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Gran curso, muy informativo.', 5, 1, 1);
-INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Excelente contenido y bien explicado.', 5, 1, 5);
-INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Altamente recomendado, me encantó.', 5, 1, 15);
+INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Gran curso, muy informativo. Si eres principiante está 100% recomendado sin duda.', 5, 1, 1);
+INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Excelente contenido y bien explicado, el instructor tiene un buen dominio del tema.', 5, 1, 5);
+INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Altamente recomendado, me encantó. Las clases están grabadas a alta calidad.', 5, 1, 15);
 INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Podría ser mejor, pero aún así bueno.', 3, 2, 2);
 INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('No me impresionó, necesita mejorar.', 2, 2, 10);
 INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Curso promedio, cumplió mis expectativas.', 3, 1, 2);
 INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Decepcionante, no vale la pena el tiempo.', 1, 1, 10);
-INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Informativo y atractivo, 5 estrellas!', 5, 2, 1);
-INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Bueno para principiantes, aprendí mucho.', 4, 2, 5);
-INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Contenido increíble, imprescindible.', 4, 2, 15);
-
+INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Informativo y atractivo, 5 estrellas! Seguiré viendo cursos del mismo instructor', 5, 2, 1);
+INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Bueno para principiantes, aprendí mucho. Te enseñan desde lo más básico del tema.', 5, 2, 5);
+INSERT INTO reviews (review, rating, user_id, course_id) VALUES ('Contenido increíble, imprescindible sobretodo si eres alguien ya experimentado..', 5, 2, 15);
 
 INSERT INTO users_courses (course_id,user_id) VALUES (4,1)
 INSERT INTO users_courses (course_id,user_id) VALUES (3,1)

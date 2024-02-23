@@ -228,6 +228,12 @@ public class CoursesAPIREST {
             }
         })));
 
+        // Reviews endpoints
+        Spark.get("/reviews/best", (request, response) -> {
+            List<Review> reviews = dao_review.returnBestReviews();
+            return gson.toJson(reviews);
+        });
+
         //Associations Endpoints
 
         //Get courses for the user by email
