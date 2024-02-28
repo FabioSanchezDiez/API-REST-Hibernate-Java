@@ -2,6 +2,7 @@ package dao.user;
 
 import classes.Email;
 import dto.UserDTO;
+import models.Course;
 import models.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -87,6 +88,50 @@ public class UserDAO implements UserDAOInterface{
             return null;
         }
         session.close();
+        return user;
+    }
+
+    @Override
+    public User updateUser(User user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            session.beginTransaction();
+            user.hashPassword();
+            session.update(user);
+            session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        }
+
+        session.close();
+
+        return user;
+    }
+
+    @Override
+    public User deleteById(Long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        User user;
+        try{
+            session.beginTransaction();
+            user = searchById(id);
+
+            if(user != null){
+                session.delete(user);
+            } else{
+                return null;
+            }
+            session.getTransaction().commit();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        }finally {
+            session.close();
+        }
         return user;
     }
 

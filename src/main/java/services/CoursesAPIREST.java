@@ -219,6 +219,32 @@ public class CoursesAPIREST {
             }
         }));
 
+        Spark.put("/users/update/:id", ((request, response) -> {
+            Long id = Long.parseLong(request.params("id"));
+            User user = gson.fromJson(request.body(), User.class);
+            user.setId(id);
+
+            User updatedUser = dao_user.updateUser(user);
+
+            if(updatedUser != null){
+                return gson.toJson(updatedUser);
+            } else{
+                response.status(404);
+                return "Usuario no encontrado";
+            }
+        }));
+
+        Spark.delete("/users/delete/:id", ((request, response) -> {
+            Long id = Long.parseLong(request.params("id"));
+            User deleted = dao_user.deleteById(id);
+            if (deleted != null) {
+                return gson.toJson(deleted);
+            } else{
+                response.status(404);
+                return "Usuario no encontrado";
+            }
+        }));
+
         /*
          * [NOT SECURE]
          * A basic login simulation implementation. When the user exists

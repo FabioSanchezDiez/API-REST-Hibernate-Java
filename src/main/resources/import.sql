@@ -227,3 +227,5 @@ INSERT INTO users_courses (course_id,user_id) VALUES (4,1)
 INSERT INTO users_courses (course_id,user_id) VALUES (3,1)
 INSERT INTO users_courses (course_id,user_id) VALUES (10,1)
 INSERT INTO users_courses (course_id,user_id) VALUES (10,2)
+
+--SET FOREIGN_KEY_CHECKS=0
