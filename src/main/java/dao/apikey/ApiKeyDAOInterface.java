@@ -1,4 +1,4 @@
-package dao;
+package dao.apikey;
 
 import models.ApiKey;
 

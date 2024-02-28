@@ -3,13 +3,16 @@ package services;
 import adapters.LocalDateTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dao.*;
+import dao.apikey.ApiKeyDAOInterface;
+import dao.associations.AssociationsDAOInterface;
+import dao.course.CourseDAOInterface;
+import dao.lesson.LessonDAOInterface;
+import dao.review.ReviewDAOInterface;
+import dao.section.SectionDAOInterface;
+import dao.user.UserDAOInterface;
 import dto.CourseDTO;
 import dto.UserDTO;
-import models.ApiKey;
-import models.Course;
-import models.Review;
-import models.User;
+import models.*;
 import spark.Spark;
 
 import java.time.LocalDate;
@@ -20,6 +23,8 @@ public class CoursesAPIREST {
     private final CourseDAOInterface dao_course;
     private final UserDAOInterface dao_user;
     private final ReviewDAOInterface dao_review;
+    private final SectionDAOInterface dao_section;
+    private final LessonDAOInterface dao_lesson;
     private final AssociationsDAOInterface dao_association;
     private final ApiKeyDAOInterface apidao;
 
@@ -30,11 +35,13 @@ public class CoursesAPIREST {
             .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
 
-    public CoursesAPIREST(CourseDAOInterface implementation_course, UserDAOInterface implementation_user, ReviewDAOInterface implementation_review,AssociationsDAOInterface implementation_association, ApiKeyDAOInterface apikey){
+    public CoursesAPIREST(CourseDAOInterface implementation_course, UserDAOInterface implementation_user, ReviewDAOInterface implementation_review, SectionDAOInterface implementation_section, LessonDAOInterface implementation_lesson, AssociationsDAOInterface implementation_association, ApiKeyDAOInterface apikey){
         Spark.port(8080);
         dao_course = implementation_course;
         dao_user = implementation_user;
         dao_review = implementation_review;
+        dao_section = implementation_section;
+        dao_lesson = implementation_lesson;
         dao_association = implementation_association;
         apidao = apikey;
 
@@ -249,6 +256,7 @@ public class CoursesAPIREST {
             }
         });
 
+        //Get course by review
         Spark.get("/courses/reviews/:id", (request, response) -> {
             Long id = Long.valueOf(request.params("id"));
             Review review = dao_review.searchById(id);
@@ -258,6 +266,19 @@ public class CoursesAPIREST {
             } else{
                 response.status(404);
                 return "La reseña no existe";
+            }
+        });
+
+        //Get course by section
+        Spark.get("/courses/section/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            Section section = dao_section.searchById(id);
+            CourseDTO course = dao_association.returnCourseBySection(section);
+            if(course != null){
+                return gson.toJson(course);
+            } else{
+                response.status(404);
+                return "La sección no existe";
             }
         });
 
@@ -312,7 +333,74 @@ public class CoursesAPIREST {
             }
         });
 
-        // API KEY
+        //Get sections by course
+        Spark.get("/sections/courses/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            Course course = dao_course.searchById(id);
+            List<Section> sections = dao_association.returnSectionsByCourse(course);
+            if(sections != null){
+                return gson.toJson(sections);
+            } else{
+                response.status(404);
+                return "El curso no existe";
+            }
+        });
+
+        //Get section by lesson
+        Spark.get("/sections/lessons/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            Lesson lesson = dao_lesson.searchById(id);
+            Section section = dao_association.returnSectionByLesson(lesson);
+            if(section != null){
+                return gson.toJson(section);
+            } else{
+                response.status(404);
+                return "La lección no existe";
+            }
+        });
+
+        //Insert new section
+        Spark.post("/sections/:idcourse", (request, response) -> {
+            Long idCourse = Long.parseLong(request.params("idcourse"));
+            Course course = dao_course.searchById(idCourse);
+            Section section = gson.fromJson(request.body(), Section.class);
+            Section sectionCreated = dao_association.createSection(course,section);
+            if(sectionCreated != null){
+                return gson.toJson(sectionCreated);
+            } else{
+                response.status(404);
+                return "Error al añadir la sección";
+            }
+        });
+
+        //Get lessons by section
+        Spark.get("/lessons/sections/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            Section section = dao_section.searchById(id);
+            List<Lesson> lessons = dao_association.returnLessonsBySection(section);
+            if(lessons != null){
+                return gson.toJson(lessons);
+            } else{
+                response.status(404);
+                return "La sección no existe";
+            }
+        });
+
+        //Insert new lesson
+        Spark.post("/lessons/:idsection", (request, response) -> {
+            Long idSection = Long.parseLong(request.params("idsection"));
+            Section section = dao_section.searchById(idSection);
+            Lesson lesson = gson.fromJson(request.body(), Lesson.class);
+            Lesson lessonCreated = dao_association.createLesson(section,lesson);
+            if(lessonCreated != null){
+                return gson.toJson(lessonCreated);
+            } else{
+                response.status(404);
+                return "Error al añadir la lección";
+            }
+        });
+
+        // API KEY endpoints
         Spark.get("/apikey", (request, response) -> {
             List<ApiKey> course = apidao.returnAllApiKeys();
             return gson.toJson(course);

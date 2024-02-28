@@ -1,5 +1,9 @@
 package dao;
 
+import dao.associations.AssociationsDAO;
+import dao.associations.AssociationsDAOInterface;
+import dao.course.CourseDAO;
+import dao.course.CourseDAOInterface;
 import models.User;
 import org.junit.jupiter.api.Test;
 

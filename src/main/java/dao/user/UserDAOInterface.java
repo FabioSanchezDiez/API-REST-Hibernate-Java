@@ -1,4 +1,4 @@
-package dao;
+package dao.user;
 
 import dto.UserDTO;
 import models.User;

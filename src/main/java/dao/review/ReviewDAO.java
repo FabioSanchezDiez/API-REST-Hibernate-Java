@@ -1,4 +1,4 @@
-package dao;
+package dao.review;
 
 import models.Course;
 import models.Review;

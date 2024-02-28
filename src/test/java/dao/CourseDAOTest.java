@@ -1,5 +1,6 @@
 package dao;
 
+import dao.course.CourseDAO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

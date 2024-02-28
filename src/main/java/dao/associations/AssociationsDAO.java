@@ -1,10 +1,8 @@
-package dao;
+package dao.associations;
 
-import classes.Email;
+import dao.review.ReviewDAO;
 import dto.CourseDTO;
-import models.Course;
-import models.Review;
-import models.User;
+import models.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
@@ -166,4 +164,125 @@ public class AssociationsDAO implements AssociationsDAOInterface {
         session.close();
         return review;
     }
+
+    // [END] === (Review model) OneToMany Relationship methods ===
+
+
+    // [START] === (Section model) OneToMany Relationship methods for access from both sides ===
+
+    @Override
+    public CourseDTO returnCourseBySection(Section section) {
+        CourseDTO courseMapped;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            Query<Section> query = session.createQuery("select s from Section s join fetch s.course where s.id = :id", Section.class);
+            query.setParameter("id", section.getId());
+            Course course = query.getSingleResult().getCourse();
+            courseMapped = new CourseDTO(course.getId(), course.getImage(), course.getName(), course.getRegisteredUsers());
+        } catch (Exception e){
+            courseMapped = null;
+        }
+
+        session.close();
+        return courseMapped;
+    }
+
+    @Override
+    public List<Section> returnSectionsByCourse(Course course) {
+        List<Section> sections;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            Query<Course> query = session.createQuery("select c from Course c join fetch c.sections where c.id = :id", Course.class);
+            query.setParameter("id", course.getId());
+            sections = query.getSingleResult().getSections();
+        } catch (Exception e){
+            sections = new ArrayList<>();
+        }
+
+        session.close();
+
+        return sections;
+    }
+
+    @Override
+    public Section createSection(Course course, Section section) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            session.beginTransaction();
+
+            section.setCourse(course);
+            session.save(section);
+            session.getTransaction().commit();
+
+        } catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        }
+        session.close();
+        return section;
+    }
+
+    // [END] === (Section model) OneToMany Relationship methods ===
+
+
+    // [START] === (Lesson model) OneToMany Relationship methods for access from both sides ===
+    @Override
+    public Section returnSectionByLesson(Lesson lesson) {
+        Section section;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            Query<Lesson> query = session.createQuery("select l from Lesson l join fetch l.section where l.id = :id", Lesson.class);
+            query.setParameter("id", lesson.getId());
+            section = query.getSingleResult().getSection();
+        } catch (Exception e){
+            section = null;
+        }
+
+        session.close();
+        return section;
+    }
+
+    @Override
+    public List<Lesson> returnLessonsBySection(Section section) {
+        List<Lesson> lessons;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            Query<Section> query = session.createQuery("select s from Section s join fetch s.lessons where s.id = :id", Section.class);
+            query.setParameter("id", section.getId());
+            lessons = query.getSingleResult().getLessons();
+        } catch (Exception e){
+            lessons = new ArrayList<>();
+        }
+
+        session.close();
+
+        return lessons;
+    }
+
+    @Override
+    public Lesson createLesson(Section section, Lesson lesson) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            session.beginTransaction();
+
+            lesson.setSection(section);
+            session.save(lesson);
+            session.getTransaction().commit();
+
+        } catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        }
+        session.close();
+        return lesson;
+    }
+
 }

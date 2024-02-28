@@ -1,4 +1,4 @@
-package dao;
+package dao.course;
 
 import dto.CourseDTO;
 import models.Course;

@@ -1,9 +1,7 @@
-package dao;
+package dao.associations;
 
 import dto.CourseDTO;
-import models.Course;
-import models.Review;
-import models.User;
+import models.*;
 
 import java.util.List;
 
@@ -15,4 +13,10 @@ public interface AssociationsDAOInterface {
     CourseDTO returnCourseByReview(Review review);
     List<Review> returnReviewsByUser(User user);
     Review createReview(User user, Course course, Review review);
+    CourseDTO returnCourseBySection(Section section);
+    List<Section> returnSectionsByCourse(Course course);
+    Section createSection(Course course, Section section);
+    Section returnSectionByLesson(Lesson lesson);
+    List<Lesson> returnLessonsBySection(Section section);
+    Lesson createLesson(Section section, Lesson lesson);
 }

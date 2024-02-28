@@ -1,4 +1,4 @@
-package dao;
+package dao.user;
 
 import classes.Email;
 import dto.UserDTO;
@@ -10,7 +10,6 @@ import util.HibernateUtil;
 
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
-import java.util.List;
 
 public class UserDAO implements UserDAOInterface{
 
