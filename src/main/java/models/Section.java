@@ -1,6 +1,8 @@
 package models;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class Section {
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Expose
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Lesson> lessons = new ArrayList<>();
 
     public Section() {
